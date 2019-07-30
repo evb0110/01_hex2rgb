@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import hex2rgb, { isDarkRgb } from './helpers/hex2rgb';
+
 import './App.css';
 
 function App() {
+  const [rgb, setRgb] = useState('');
+  const [darkRgb, setDarkRgb] = useState('');
+  const onChange = e => {
+    const h = e.target.value;
+    setRgb(hex2rgb(h));
+    setDarkRgb(hex2rgb(h, -30));
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" style={{ backgroundColor: rgb }}>
+      <div className="container">
+        <input
+          onChange={onChange}
+          className="input"
+          maxLength="7"
+          size="10"
+          type="text"
+        />
+        <div className="output" style={{ backgroundColor: darkRgb, color:  isDarkRgb(darkRgb) ? 'white' : 'black'}}>
+          {rgb}
+        </div>
+      </div>
     </div>
   );
 }
